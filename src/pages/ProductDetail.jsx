@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 import ItemDetail from "../components/ItemDetail"
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/firebase";
 
 function ProductDetail() {
   const [producto, setProducto] = useState(null)
@@ -8,16 +10,26 @@ function ProductDetail() {
   const { id } = useParams()
 
   useEffect(() => {
-    fetch("/productos.json")
-      .then((res) => res.json())
-      .then((data) => {
-        const productoEncontrado = data.find(
-          (item) => item.id == id
-        )
+  const obtenerProducto = async () => {
+    try {
+      const productoRef = doc(db, "productos", id);
+      const snapshot = await getDoc(productoRef);
 
-        setProducto(productoEncontrado)
-      })
-  }, [id])
+      if (snapshot.exists()) {
+        setProducto({
+          id: snapshot.id,
+          ...snapshot.data(),
+        });
+      } else {
+        console.log("El producto no existe");
+      }
+    } catch (error) {
+      console.error("Error al obtener el producto:", error);
+    }
+  };
+
+  obtenerProducto();
+}, [id]);
 
   return (
     <div>

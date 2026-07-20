@@ -1,31 +1,129 @@
-import { useContext } from "react"
-import { CartContext } from "../context/CartContext"
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { Button, Card, Container, Row, Col } from "react-bootstrap";
+
 
 function Cart() {
-  const { cart } = useContext(CartContext)
+
+  const {
+    cart,
+    removeFromCart,
+    clearCart
+  } = useContext(CartContext);
+
+
 
   return (
-    <div>
-      <h2 className="titulo-productos">
+
+    <Container className="mt-4">
+
+      <h2>
         Carrito
       </h2>
 
-      <div className="productos">
-        {cart.map((producto, index) => (
-          <div className="card" key={index}>
-            <img
-              src={producto.imagen}
-              alt={producto.nombre}
-            />
 
-            <h3>{producto.nombre}</h3>
 
-            <p>${producto.precio}</p>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
+      {cart.length === 0 ? (
+
+        <p>
+          El carrito está vacío
+        </p>
+
+      ) : (
+
+        <>
+
+          <Row>
+
+            {cart.map((producto, index) => (
+
+              <Col
+                md={4}
+                key={index}
+                className="mb-4"
+              >
+
+                <Card>
+
+
+                  {producto.imagen && (
+
+                    <Card.Img
+                      variant="top"
+                      src={producto.imagen}
+                      alt={producto.nombre}
+                    />
+
+                  )}
+
+
+
+                  <Card.Body>
+
+
+                    <Card.Title>
+
+                      {producto.nombre}
+
+                    </Card.Title>
+
+
+
+                    <Card.Text>
+
+                      ${producto.precio}
+
+                    </Card.Text>
+
+
+
+                    <Button
+                      variant="danger"
+                      onClick={() =>
+                        removeFromCart(producto.id)
+                      }
+                    >
+
+                      Eliminar
+
+                    </Button>
+
+
+                  </Card.Body>
+
+
+                </Card>
+
+
+              </Col>
+
+            ))}
+
+
+          </Row>
+
+
+
+          <Button
+            variant="secondary"
+            onClick={clearCart}
+          >
+
+            Vaciar carrito
+
+          </Button>
+
+
+        </>
+
+      )}
+
+
+    </Container>
+
+  );
+
 }
 
-export default Cart
+
+export default Cart;

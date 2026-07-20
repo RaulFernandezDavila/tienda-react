@@ -1,9 +1,43 @@
+import styled from "styled-components";
+
+
+const HeaderContainer = styled.header`
+
+  padding: 20px;
+
+  text-align: center;
+
+  background-color: #222;
+
+  color: white;
+
+
+`;
+
+
+const Titulo = styled.h1`
+
+  margin: 0;
+
+`;
+
+
+
 function Header() {
+
   return (
-    <header>
-      <h1>Tienda electronica</h1>
-    </header>
-  )
+
+    <HeaderContainer>
+
+      <Titulo>
+        Tienda electrónica
+      </Titulo>
+
+    </HeaderContainer>
+
+  );
+
 }
 
-export default Header
+
+export default Header;
